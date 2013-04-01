@@ -1,0 +1,16 @@
+*~
+*.bak
+.sublime-project
+.sublime-workspace
+.git
+*/.git
+.gitignore
+.gitmodules
+.gitconfig
+.gitattributes
+Berksfile
+Berksfile.lock
+tmp
+.vagrant
+Vagrantfile
+Rakefile

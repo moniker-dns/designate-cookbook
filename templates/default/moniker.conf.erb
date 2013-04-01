@@ -1,0 +1,188 @@
+[DEFAULT]
+########################
+## General Configuration
+########################
+# Show more verbose log output (sets INFO log level output)
+verbose = <%= node['moniker']['DEFAULT']['verbose'] %>
+
+# Show debugging output in logs (sets DEBUG log level output)
+debug = <%= node['moniker']['DEFAULT']['debug'] %>
+
+# Top-level directory for maintaining moniker's state
+state_path = <%= node['moniker']['DEFAULT']['state_path'] %>
+
+# Log directory
+logdir = <%= node['moniker']['DEFAULT']['logdir'] %>
+use_syslog = <%= node['moniker']['DEFAULT']['use_syslog'] %>
+syslog_log_facility = <%= node['moniker']['DEFAULT']['syslog_log_facility'] %>
+
+# Driver used for issuing notifications
+notification_driver = <%= node['moniker']['DEFAULT']['notification_driver'] %>
+
+# Policy Configuration
+policy_file = <%= node['moniker']['DEFAULT']['policy_file'] %>
+policy_default_rule = <%= node['moniker']['DEFAULT']['policy_default_rule'] %>
+
+# RabbitMQ Settings
+rabbit_hosts = <%= @rabbit_hosts.join(', ') %>
+rabbit_use_ssl = <%= node['moniker']['DEFAULT']['rabbit_use_ssl'] %>
+rabbit_userid = <%= node['moniker']['DEFAULT']['rabbit_userid'] %>
+rabbit_password = <%= node['moniker']['DEFAULT']['rabbit_password'] %>
+rabbit_virtual_host = <%= node['moniker']['DEFAULT']['rabbit_virtual_host'] %>
+rabbit_durable_queues = <%= node['moniker']['DEFAULT']['rabbit_durable_queues'] %>
+rabbit_ha_queues = <%= node['moniker']['DEFAULT']['rabbit_ha_queues'] %>
+kombu_ssl_version = <%= node['moniker']['DEFAULT']['kombu_ssl_version'] %>
+kombu_ssl_keyfile = <%= node['moniker']['DEFAULT']['kombu_ssl_keyfile'] %>
+kombu_ssl_certfile = <%= node['moniker']['DEFAULT']['kombu_ssl_certfile'] %>
+kombu_ssl_ca_certs = <%= node['moniker']['DEFAULT']['kombu_ssl_ca_certs'] %>
+
+# There has to be a better way to set these defaults
+allowed_rpc_exception_modules = moniker.exceptions, moniker.openstack.common.exception
+default_log_levels = amqplib=WARN, sqlalchemy=WARN, boto=WARN, suds=INFO, keystone=INFO, eventlet.wsgi.server=WARN, stevedore=WARN
+
+########################
+## Service Configuration
+########################
+#-----------------------
+# Central Service
+#-----------------------
+[service:central]
+# Driver used for backend communication (e.g. rpc, bind9, powerdns)
+backend_driver = <%= node['moniker']['service:central']['backend_driver'] %>
+
+# List of blacklist domain name regexes
+<% if node['moniker']['service:central']['domain_name_blacklist'].empty? -%>
+#domain_name_blacklist = None
+<% else -%>
+domain_name_blacklist = <%= node['moniker']['service:central']['domain_name_blacklist'].join(", ") %>
+<% end -%>
+
+# Accepted TLD list - http://data.iana.org/TLD/tlds-alpha-by-domain.txt
+<% if node['moniker']['service:central']['accepted_tld_list'].empty? -%>
+#accepted_tld_list = None
+<% else -%>
+accepted_tld_list = <%= node['moniker']['service:central']['accepted_tld_list'].join(", ") %>
+<% end -%>
+
+# Maximum domain name length
+max_domain_name_len = <%= node['moniker']['service:central']['max_domain_name_len'] %>
+
+# Maximum record name length
+max_record_name_len = <%= node['moniker']['service:central']['max_record_name_len'] %>
+
+#-----------------------
+# API Service
+#-----------------------
+[service:api]
+# Address to bind the API server
+api_host = <%= node['moniker']['service:api']['api_host'] %>
+
+# Port the bind the API server to
+api_port = <%= node['moniker']['service:api']['api_port'] %>
+
+# Authentication strategy to use - can be either "noauth" or "keystone"
+auth_strategy = <%= node['moniker']['service:api']['auth_strategy'] %>
+
+# Enabled API Version 1 extensions
+<% if node['moniker']['service:api']['enabled_extensions_v1'].empty? -%>
+#enabled_extensions_v1 = None
+<% else -%>
+enabled_extensions_v1 = <%= node['moniker']['service:api']['enabled_extensions_v1'].join(", ") %>
+<% end -%>
+
+#-----------------------
+# Agent Service
+#-----------------------
+[service:agent]
+# Driver used for backend communication (e.g. bind9, powerdns)
+backend_driver = <%= node['moniker']['service:agent']['backend_driver'] %>
+
+#-----------------------
+# Sink Service
+#-----------------------
+[service:sink]
+# List of notification handlers to enable, configuration of these needs to
+# correspond to a [handler:my_driver] section below or else in the config
+<% if node['moniker']['service:sink']['enabled_notification_handlers'].empty? -%>
+#enabled_notification_handlers = None
+<% else -%>
+enabled_notification_handlers = <%= node['moniker']['service:sink']['enabled_notification_handlers'] %>
+<% end -%>
+
+########################
+## Storage Configuration
+########################
+#-----------------------
+# SQLAlchemy Storage
+#-----------------------
+[storage:sqlalchemy]
+# Database connection string - to configure options for a given implementation
+# like sqlalchemy or other see below
+#database_connection = <%= @moniker_sqlalchemy_connection_string %>
+connection_debug = <%= node['moniker']['storage:sqlalchemy']['connection_debug'] %>
+connection_trace = <%= node['moniker']['storage:sqlalchemy']['connection_trace'] %>
+sqlite_synchronous = <%= node['moniker']['storage:sqlalchemy']['sqlite_synchronous'] %>
+idle_timeout = <%= node['moniker']['storage:sqlalchemy']['idle_timeout'] %>
+max_retries = <%= node['moniker']['storage:sqlalchemy']['max_retries'] %>
+retry_interval = <%= node['moniker']['storage:sqlalchemy']['retry_interval'] %>
+
+########################
+## Handler Configuration
+########################
+#-----------------------
+# Nova Fixed Handler
+#-----------------------
+[handler:nova_fixed]
+domain_id = <%= node['moniker']['handler:nova_fixed']['domain_id'] %>
+notification_topics = <%= node['moniker']['handler:nova_fixed']['notification_topics'] %>
+control_exchange = <%= node['moniker']['handler:nova_fixed']['control_exchange'] %>
+format = <%= node['moniker']['handler:nova_fixed']['format'] %>
+
+#------------------------
+# Quantum Floating Handler
+#------------------------
+[handler:quantum_floating]
+domain_id = <%= node['moniker']['handler:quantum_floating']['domain_id'] %>
+notification_topics = <%= node['moniker']['handler:quantum_floating']['notification_topics'] %>
+control_exchange = <%= node['moniker']['handler:quantum_floating']['control_exchange'] %>
+format = <%= node['moniker']['handler:quantum_floating']['format'] %>
+
+########################
+## Backend Configuration
+########################
+#-----------------------
+# Bind9 Backend
+#-----------------------
+[backend:bind9]
+rndc_path = <%= node['moniker']['backend:bind9']['rndc_path'] %>
+rndc_host = <%= node['moniker']['backend:bind9']['rndc_host'] %>
+rndc_port = <%= node['moniker']['backend:bind9']['rndc_port'] %>
+rndc_config_file = <%= node['moniker']['backend:bind9']['rndc_config_file'] %>
+rndc_key_file = <%= node['moniker']['backend:bind9']['rndc_key_file'] %>
+
+#-----------------------
+# Bind9+MySQL Backend
+#-----------------------
+[backend:mysqlbind9]
+database_connection = <%= node['moniker']['backend:mysqlbind9']['database_connection'] %>
+rndc_path = <%= node['moniker']['backend:mysqlbind9']['rndc_path'] %>
+rndc_host = <%= node['moniker']['backend:mysqlbind9']['rndc_host'] %>
+rndc_port = <%= node['moniker']['backend:mysqlbind9']['rndc_port'] %>
+rndc_config_file = <%= node['moniker']['backend:mysqlbind9']['rndc_config_file'] %>
+rndc_key_file = <%= node['moniker']['backend:mysqlbind9']['rndc_key_file'] %>
+write_database = <%= node['moniker']['backend:mysqlbind9']['write_database'] %>
+dns_server_type = <%= node['moniker']['backend:mysqlbind9']['dns_server_type'] %>
+
+#-----------------------
+# PowerDNS Backend
+#-----------------------
+[backend:powerdns]
+database_connection = <%= @powerdns_database_connection %>
+connection_debug = <%= node['moniker']['backend:powerdns']['connection_debug'] %>
+connection_trace = <%= node['moniker']['backend:powerdns']['connection_trace'] %>
+sqlite_synchronous = <%= node['moniker']['backend:powerdns']['sqlite_synchronous'] %>
+idle_timeout = <%= node['moniker']['backend:powerdns']['idle_timeout'] %>
+max_retries = <%= node['moniker']['backend:powerdns']['max_retries'] %>
+retry_interval = <%= node['moniker']['backend:powerdns']['retry_interval'] %>
+domain_type = <%= node['moniker']['backend:powerdns']['domain_type'] %>
+also_notify = <%= node['moniker']['backend:powerdns']['also_notify'].join(", ") %>
