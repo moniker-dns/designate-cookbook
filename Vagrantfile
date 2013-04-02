@@ -37,11 +37,12 @@ Vagrant.configure("2") do |config|
     #chef.roles_path      = "roles"
 
     # Set the chef run-list
+    chef.add_recipe("apt")
     chef.add_recipe("rabbitmq")
     chef.add_recipe("mysql::server")
     chef.add_recipe("moniker::central")
     chef.add_recipe("moniker::agent")
-    #chef.add_recipe("moniker::sink")
+    chef.add_recipe("moniker::sink")
     chef.add_recipe("moniker::api")
     
     # Provide some chef attributes
