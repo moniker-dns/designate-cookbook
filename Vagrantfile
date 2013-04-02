@@ -17,16 +17,16 @@ Vagrant.configure("2") do |config|
   end
 
   # Install the correct version of chef
-  # config.vm.provision :shell do |shell|
-  #   shell.inline = %Q{
-  #     if [ ! -f "/usr/bin/chef-solo" ]; then
-  #       echo "deb http://apt.opscode.com/ `lsb_release -cs`-0.10 main" | sudo tee /etc/apt/sources.list.d/opscode.list &&
-  #       wget -O - http://apt.opscode.com/packages@opscode.com.gpg.key | sudo apt-key add - &&
-  #       sudo apt-get update &&
-  #       sudo apt-get install chef --yes 
-  #     fi
-  #   }
-  # end
+  config.vm.provision :shell do |shell|
+    shell.inline = %Q{
+      if [ ! -f "/usr/bin/chef-solo" ]; then
+        echo "deb http://apt.opscode.com/ `lsb_release -cs`-0.10 main" | sudo tee /etc/apt/sources.list.d/opscode.list &&
+        wget -O - http://apt.opscode.com/packages@opscode.com.gpg.key | sudo apt-key add - &&
+        sudo apt-get update &&
+        sudo apt-get install chef --yes 
+      fi
+    }
+  end
 
   # Provision the VM with chef-solo
   config.vm.provision :chef_solo do |chef|
