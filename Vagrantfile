@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
         echo "deb http://apt.opscode.com/ `lsb_release -cs`-0.10 main" | sudo tee /etc/apt/sources.list.d/opscode.list &&
         wget -O - http://apt.opscode.com/packages@opscode.com.gpg.key | sudo apt-key add - &&
         sudo apt-get update &&
-        sudo apt-get install chef --yes 
+        sudo apt-get install chef --yes
       fi
     }
   end

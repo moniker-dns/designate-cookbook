@@ -13,7 +13,7 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
-
+#
 # Public Moniker PPA
 apt_repository "moniker-unstable" do
   uri          "http://ppa.launchpad.net/moniker-drivers/unstable/ubuntu"

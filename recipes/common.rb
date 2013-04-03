@@ -14,8 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-require 'uri'
-
 # Install the Moniker package Repository
 include_recipe "moniker::repository"
 
