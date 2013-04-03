@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
         sudo apt-get update &&
         sudo apt-get install chef --yes
       fi
-      sudo rm /usr/sbin/policy-rc.d
+      sudo rm /usr/sbin/policy-rc.d || true
     }
   end
 
