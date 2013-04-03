@@ -20,11 +20,15 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell do |shell|
     shell.inline = %Q{
       if [ ! -f "/usr/bin/chef-solo" ]; then
+        sudo echo "#!/bin/bash" > /usr/sbin/policy-rc.d &&
+        sudo echo "exit 101" >> /usr/sbin/policy-rc.d &&
+        sudo chmod +x /usr/sbin/policy-rc.d &&
         echo "deb http://apt.opscode.com/ `lsb_release -cs`-0.10 main" | sudo tee /etc/apt/sources.list.d/opscode.list &&
         wget -O - http://apt.opscode.com/packages@opscode.com.gpg.key | sudo apt-key add - &&
         sudo apt-get update &&
         sudo apt-get install chef --yes
       fi
+      sudo rm /usr/sbin/policy-rc.d
     }
   end
 
