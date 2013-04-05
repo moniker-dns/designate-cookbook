@@ -10,6 +10,7 @@ Requirements:
 4. Vagrant Berkshelf plugin - https://github.com/riotgames/berkshelf-vagrant
 
 Setup:
+
 1. git clone git@github.com:moniker-dns/moniker-cookbook.git
 2. rvm --rvmrc --create ruby@moniker-cookbook
 3. gem install berkshelf
