@@ -1,34 +1,34 @@
-Vagrant.require_plugin("berkshelf-vagrant")
+Vagrant.require_plugin("vagrant-berkshelf")
 
 Vagrant.configure("2") do |config|
-  config.vm.hostname   = "moniker"
-  # It seems the Ubuntu provided boxes don't work -_-
-  #config.vm.box        = "precise-server-cloudimg-vagrant-amd64-disk1"
-  #config.vm.box_url    = "http://cloud-images.ubuntu.com/precise/current/precise-server-cloudimg-vagrant-amd64-disk1.box"
-  config.vm.box        = "precise64"
-  config.vm.box_url    = "http://files.vagrantup.com/precise64.box"
-  config.vm.network    :private_network, ip: "192.168.50.1"
-  config.ssh.max_tries = 40
-  config.ssh.timeout   = 120
+  config.vm.hostname       = "moniker-cookbook"
+  config.berkshelf.enabled = true
+
+  config.vm.box            = "precise-server-cloudimg-vagrant-amd64-disk1"
+  config.vm.box_url        = "http://cloud-images.ubuntu.com/precise/current/precise-server-cloudimg-vagrant-amd64-disk1.box"
+  # config.vm.box          = "precise64"
+  # config.vm.box_url      = "http://files.vagrantup.com/precise64.box"
+  config.vm.network        :private_network, ip: "192.168.50.1"
+  config.ssh.max_tries     = 40
+  config.ssh.timeout       = 120
 
   config.vm.provider :virtualbox do |vbox|
     # Enable the VBox GUI
     vbox.gui = true if ENV['VAGRANT_GUI']
   end
 
+  config.vm.provider :lxc do |lxc|
+    # Set the max RAM usage to 512 MB
+    lxc.customize 'cgroup.memory.limit_in_bytes', '512M'
+  end
+
   # Install the correct version of chef
   config.vm.provision :shell do |shell|
     shell.inline = %Q{
       if [ ! -f "/usr/bin/chef-solo" ]; then
-        sudo echo "#!/bin/bash" > /usr/sbin/policy-rc.d &&
-        sudo echo "exit 101" >> /usr/sbin/policy-rc.d &&
-        sudo chmod +x /usr/sbin/policy-rc.d &&
-        echo "deb http://apt.opscode.com/ `lsb_release -cs`-0.10 main" | sudo tee /etc/apt/sources.list.d/opscode.list &&
-        wget -O - http://apt.opscode.com/packages@opscode.com.gpg.key | sudo apt-key add - &&
-        sudo apt-get update &&
-        sudo apt-get install chef --yes
+        wget -O /tmp/chef.deb https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/11.04/x86_64/chef_10.24.4-1.ubuntu.11.04_amd64.deb &&
+        dpkg -i /tmp/chef.deb
       fi
-      sudo rm /usr/sbin/policy-rc.d || true
     }
   end
 
