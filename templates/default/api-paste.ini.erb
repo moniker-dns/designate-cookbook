@@ -1,33 +1,17 @@
-[composite:osapi_dns]
-use = egg:Paste#urlmap
-/: osapi_dns_app_versions
-/v1: osapi_dns_v1
+<%
+node['moniker']['api_paste'].each do |section, properties|
+  _buf << "[#{section}]\n"
 
-[app:osapi_dns_app_versions]
-paste.app_factory = moniker.api.versions:factory
+  properties.each do |key, value|
+    if value.nil? or (value.kind_of?(Array) and value.empty?)
+      next
+    elsif value.kind_of?(Array)
+      _buf << "#{key} = #{value.join(', ')}\n"
+    else
+      _buf << "#{key} = #{value}\n"
+    end
+  end
 
-[composite:osapi_dns_v1]
-use = call:moniker.api.auth:pipeline_factory
-noauth = noauthcontext osapi_dns_app_v1
-keystone = authtoken keystonecontext osapi_dns_app_v1
-
-[app:osapi_dns_app_v1]
-paste.app_factory = moniker.api.v1:factory
-
-[filter:noauthcontext]
-paste.filter_factory = moniker.api.auth:NoAuthContextMiddleware.factory
-
-[filter:keystonecontext]
-paste.filter_factory = moniker.api.auth:KeystoneContextMiddleware.factory
-
-[filter:authtoken]
-paste.filter_factory = <%= node['moniker']['filter:authtoken']['filter_factory'] %>
-service_protocol = <%= node['moniker']['filter:authtoken']['service_protocol'] %>
-service_host = <%= node['moniker']['filter:authtoken']['service_host'] %>
-service_port = <%= node['moniker']['filter:authtoken']['service_port'] %>
-auth_host = <%= node['moniker']['filter:authtoken']['auth_host'] %>
-auth_port = <%= node['moniker']['filter:authtoken']['auth_port'] %>
-auth_protocol = <%= node['moniker']['filter:authtoken']['auth_protocol'] %>
-admin_tenant_name = <%= node['moniker']['filter:authtoken']['admin_tenant_name'] %>
-admin_user = <%= node['moniker']['filter:authtoken']['admin_user'] %>
-admin_password = <%= node['moniker']['filter:authtoken']['admin_password'] %>
+  _buf << "\n"
+end
+-%>

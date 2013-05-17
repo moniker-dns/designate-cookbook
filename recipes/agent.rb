@@ -19,7 +19,6 @@ include_recipe "moniker::common"
 # Install the Moniker Agent package
 package "moniker-agent" do
   action   :upgrade
-  version  node['moniker']['version']
 end
 
 # Enable + Start the Moniker Agent service

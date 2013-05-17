@@ -19,7 +19,6 @@ include_recipe "moniker::common"
 # Install the Moniker Sink package
 package "moniker-sink" do
   action   :upgrade
-  version  node['moniker']['version']
 end
 
 # Enable + Start the Moniker Sink service

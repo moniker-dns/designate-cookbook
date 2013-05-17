@@ -17,45 +17,21 @@
 # Install the Moniker package Repository
 include_recipe "moniker::repository"
 
-# Find the RabbitMQ nodes with search, if necessary
-rabbit_hosts = node['moniker']['DEFAULT']['rabbit_hosts']
-
-if Chef::Config[:solo] and rabbit_hosts.nil?
-  Chef::Application.fatal!("You must set node['moniker']['DEFAULT']['rabbit_hosts'] in chef-solo mode.")
-elsif rabbit_hosts.nil?
-  rabbit_hosts = search("node", node['moniker']['rabbit_search'])
-  
-  if rabbit_hosts.empty?
-    Chef::Application.fatal!("Search was unable to find any rabbit hosts.")
-  else
-    rabbit_hosts.map! do |member|
-      "#{member['ipaddress']}:#{member['rabbitmq']['port']}"
-    end
-  end
+# Lookup the RabbitMQ hosts via search (or the configured hosts if set)
+rabbitmq_hosts = search_helper_best_ip(node[:moniker][:rabbitmq_search], node[:moniker][:rabbitmq_hosts]) do |ip, other_node|
+  "#{ip}:#{other_node[:rabbitmq][:port]}"
 end
 
-# # Find the Database Connection Info
-# database_connection = node['moniker']['storage:sqlalchemy']['database_connection']
+rabbitmq_password = lookup_password('rabbitmq', node['moniker']['DEFAULT']['rabbit_userid'], node['moniker']['DEFAULT']['rabbit_password'])
 
-# if Chef::Config[:solo] and database_connection['host'].nil?
-#   Chef::Application.fatal!("You must set node['moniker']['storage:sqlalchemy']['database_connection']['host'] in chef-solo mode.")
-# elsif database_connection['host'].nil?
-#   mysql_hosts = search("node", node['moniker']['mysql_search'])
+# TODO: Look these up dynamically!
+sqlalchemy_database_connection = node['moniker']['storage:sqlalchemy']['database_connection']
+powerdns_database_connection = node['moniker']['backend:powerdns']['database_connection']
 
-#   if mysql_hosts.empty?
-#     Chef::Application.fatal!("Search was unable to find any mysql hosts.")
-#   else
-#     # Pick the first MySQL sever
-#     mysql_host = mysql_hosts[0]
-
-#     node.set['moniker']['storage:sqlalchemy']['database_connection']['host'] = mysql_host['ipaddress']
-#   end
-# end
 
 # Install the moniker-common package
 package "moniker-common" do
-  action   :install
-  version  node['moniker']['version']
+  action   :upgrade
 end
 
 # Write out the main moniker config file
@@ -64,5 +40,13 @@ template "/etc/moniker/moniker.conf" do
   owner      "moniker"
   group      "moniker"
   mode       0660
-  variables  :rabbit_hosts => rabbit_hosts
+  variables  :rabbitmq_hosts => rabbitmq_hosts, :rabbitmq_password => rabbitmq_password, :sqlalchemy_database_connection => sqlalchemy_database_connection, :powerdns_database_connection => powerdns_database_connection
+end
+
+# Write out the main moniker policy file
+template "/etc/moniker/policy.json" do
+  source     "policy.json.erb"
+  owner      "moniker"
+  group      "moniker"
+  mode       0660
 end

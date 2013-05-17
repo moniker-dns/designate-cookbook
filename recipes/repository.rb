@@ -14,11 +14,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-# Public Moniker PPA
-apt_repository "moniker-unstable" do
-  uri          "http://ppa.launchpad.net/moniker-drivers/unstable/ubuntu"
-  distribution node['lsb']['codename']
-  components   ["main"]
-  keyserver    "keyserver.ubuntu.com"
-  key          "496F6DC9"
+
+if node[:moniker][:install_ppa]
+  # Public Moniker PPA
+  apt_repository "moniker-unstable" do
+    uri          "http://ppa.launchpad.net/moniker-drivers/unstable/ubuntu"
+    distribution node['lsb']['codename']
+    components   ["main"]
+    keyserver    "keyserver.ubuntu.com"
+    key          "496F6DC9"
+  end
+else
+  apt_repository "moniker-unstable" do
+    action :remove
+  end
 end

@@ -19,7 +19,6 @@ include_recipe "moniker::common"
 # Install the Moniker Central package
 package "moniker-central" do
   action   :upgrade
-  version  node['moniker']['version']
 end
 
 # Enable + Start the Moniker Central service

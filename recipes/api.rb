@@ -19,7 +19,6 @@ include_recipe "moniker::common"
 # Install the Moniker API package
 package "moniker-api" do
   action   :upgrade
-  version  node['moniker']['version']
 end
 
 # Write out the api-paste configuration file

@@ -4,10 +4,8 @@ Vagrant.configure("2") do |config|
   config.vm.hostname       = "moniker-cookbook"
   config.berkshelf.enabled = true
 
-  config.vm.box            = "precise-server-cloudimg-vagrant-amd64-disk1"
-  config.vm.box_url        = "http://cloud-images.ubuntu.com/precise/current/precise-server-cloudimg-vagrant-amd64-disk1.box"
-  # config.vm.box          = "precise64"
-  # config.vm.box_url      = "http://files.vagrantup.com/precise64.box"
+  config.vm.box            = "precise64"
+  config.vm.box_url        = "http://files.vagrantup.com/precise64.box"
   config.vm.network        :private_network, ip: "192.168.50.1"
   config.ssh.max_tries     = 40
   config.ssh.timeout       = 120
@@ -52,9 +50,7 @@ Vagrant.configure("2") do |config|
     # Provide some chef attributes
     chef.json = {
       :moniker => {
-        :DEFAULT => {
-          :rabbit_hosts => ['127.0.0.1:5672']
-        }
+        :rabbitmq_hosts => ['127.0.0.1:5672']
       },
       :rabbitmq => {
         :use_distro_version => true
