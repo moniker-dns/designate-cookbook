@@ -15,9 +15,9 @@
 # under the License.
 #
 # Cookbook Configuration
-default['moniker']['rabbitmq_search'] = 'recipes:rabbitmq AND chef_environment:#{node.chef_environment}'
+default['moniker']['rabbitmq_search'] = "recipes:rabbitmq AND chef_environment:#{node.chef_environment}"
 default['moniker']['rabbitmq_hosts'] = nil
-default['moniker']['mysql_search'] = 'recipes:mysql\:\:server AND chef_environment:#{node.chef_environment}'
+default['moniker']['mysql_search'] = "recipes:mysql\:\:server AND chef_environment:#{node.chef_environment}"
 default['moniker']['mysql_hosts'] = nil
 default['moniker']['install_ppa'] = true
 
