@@ -1,0 +1,23 @@
+---
+driver_plugin: vagrant
+
+platforms:
+- name: ubuntu-12.04
+  driver_config:
+    box: precise64
+    box_url: http://files.vagrantup.com/precise64.box
+    require_chef_omnibus: true
+  attributes:
+    moniker:
+      rabbitmq_hosts:
+        - 127.0.0.1:5672
+
+suites:
+- name: central
+  run_list: ["recipe[moniker::central]"]
+- name: api
+  run_list: ["recipe[moniker::api]"]
+- name: agent
+  run_list: ["recipe[moniker::agent]"]
+- name: sink
+  run_list: ["recipe[moniker::sink]"]
