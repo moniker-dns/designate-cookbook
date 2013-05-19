@@ -20,6 +20,7 @@ default['moniker']['rabbitmq_hosts'] = nil
 default['moniker']['mysql_search'] = "recipes:mysql\:\:server AND chef_environment:#{node.chef_environment}"
 default['moniker']['mysql_hosts'] = nil
 default['moniker']['install_ppa'] = true
+default['moniker']['extra_sections'] = []
 
 # Moniker [DEFAULT] Configuration
 default['moniker']['DEFAULT']['verbose'] = true

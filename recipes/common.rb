@@ -27,7 +27,7 @@ rabbitmq_password = lookup_password('rabbitmq', node['moniker']['DEFAULT']['rabb
 # TODO: Look these up dynamically!
 sqlalchemy_database_connection = node['moniker']['storage:sqlalchemy']['database_connection']
 powerdns_database_connection = node['moniker']['backend:powerdns']['database_connection']
-
+extra_sections = node['moniker']['extra_sections']
 
 # Install the moniker-common package
 package "moniker-common" do
@@ -40,7 +40,7 @@ template "/etc/moniker/moniker.conf" do
   owner      "moniker"
   group      "moniker"
   mode       0660
-  variables  :rabbitmq_hosts => rabbitmq_hosts, :rabbitmq_password => rabbitmq_password, :sqlalchemy_database_connection => sqlalchemy_database_connection, :powerdns_database_connection => powerdns_database_connection
+  variables  :rabbitmq_hosts => rabbitmq_hosts, :rabbitmq_password => rabbitmq_password, :sqlalchemy_database_connection => sqlalchemy_database_connection, :powerdns_database_connection => powerdns_database_connection, :extra_sections => extra_sections
 end
 
 # Write out the main moniker policy file

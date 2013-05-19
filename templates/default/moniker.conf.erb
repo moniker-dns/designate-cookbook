@@ -1,5 +1,5 @@
 [DEFAULT]
-<% "TODO: Cleanup all the duplication..." -%>
+
 ########################
 ## General Configuration
 ########################
@@ -179,5 +179,23 @@ node['moniker']['backend:powerdns'].each do |key, value|
   else
     _buf << "#{key} = #{value}\n"
   end
+end
+-%>
+
+<%
+@extra_sections.each do |section|
+  _buf << "[#{section}]\n"
+
+  node['moniker'][section].each do |key, value|
+    if value.nil? or (value.kind_of?(Array) and value.empty?)
+      next
+    elsif value.kind_of?(Array)
+      _buf << "#{key} = #{value.join(', ')}\n"
+    else
+      _buf << "#{key} = #{value}\n"
+    end
+  end
+
+  _buf << "\n"
 end
 -%>
