@@ -7,7 +7,7 @@ policy_file = /etc/moniker/policy.json
 rabbit_hosts = <%= @rabbitmq_hosts.join(', ') %>
 rabbit_password = <%= @rabbitmq_password %>
 <%
-node['moniker']['DEFAULT'].each do |key, value|
+node['moniker']['DEFAULT'].sort.each do |key, value|
   next if ['policy_file', 'rabbit_hosts', 'rabbit_password'].include?(key)
 
   if value.nil? or (value.kind_of?(Array) and value.empty?)
@@ -28,7 +28,7 @@ end
 #-----------------------
 [service:central]
 <%
-node['moniker']['service:central'].each do |key, value|
+node['moniker']['service:central'].sort.each do |key, value|
   if value.nil? or (value.kind_of?(Array) and value.empty?)
     next
   elsif value.kind_of?(Array)
@@ -44,7 +44,7 @@ end
 #-----------------------
 [service:api]
 <%
-node['moniker']['service:api'].each do |key, value|
+node['moniker']['service:api'].sort.each do |key, value|
   if value.nil? or (value.kind_of?(Array) and value.empty?)
     next
   elsif value.kind_of?(Array)
@@ -60,7 +60,7 @@ end
 #-----------------------
 [service:agent]
 <%
-node['moniker']['service:agent'].each do |key, value|
+node['moniker']['service:agent'].sort.each do |key, value|
   if value.nil? or (value.kind_of?(Array) and value.empty?)
     next
   elsif value.kind_of?(Array)
@@ -76,7 +76,7 @@ end
 #-----------------------
 [service:sink]
 <%
-node['moniker']['service:sink'].each do |key, value|
+node['moniker']['service:sink'].sort.each do |key, value|
   if value.nil? or (value.kind_of?(Array) and value.empty?)
     next
   elsif value.kind_of?(Array)
@@ -96,7 +96,7 @@ end
 [storage:sqlalchemy]
 database_connection = <%= @sqlalchemy_database_connection %>
 <%
-node['moniker']['storage:sqlalchemy'].each do |key, value|
+node['moniker']['storage:sqlalchemy'].sort.each do |key, value|
   next if key == 'database_connection'
 
   if value.nil? or (value.kind_of?(Array) and value.empty?)
@@ -117,7 +117,7 @@ end
 #-----------------------
 [handler:nova_fixed]
 <%
-node['moniker']['handler:nova_fixed'].each do |key, value|
+node['moniker']['handler:nova_fixed'].sort.each do |key, value|
   if value.nil? or (value.kind_of?(Array) and value.empty?)
     next
   elsif value.kind_of?(Array)
@@ -133,7 +133,7 @@ end
 #------------------------
 [handler:quantum_floating]
 <%
-node['moniker']['handler:quantum_floating'].each do |key, value|
+node['moniker']['handler:quantum_floating'].sort.each do |key, value|
   if value.nil? or (value.kind_of?(Array) and value.empty?)
     next
   elsif value.kind_of?(Array)
@@ -152,7 +152,7 @@ end
 #-----------------------
 [backend:bind9]
 <%
-node['moniker']['backend:bind9'].each do |key, value|
+node['moniker']['backend:bind9'].sort.each do |key, value|
   if value.nil? or (value.kind_of?(Array) and value.empty?)
     next
   elsif value.kind_of?(Array)
@@ -169,7 +169,7 @@ end
 [backend:powerdns]
 database_connection = <%= @powerdns_database_connection %>
 <%
-node['moniker']['backend:powerdns'].each do |key, value|
+node['moniker']['backend:powerdns'].sort.each do |key, value|
   next if key == 'database_connection'
 
   if value.nil? or (value.kind_of?(Array) and value.empty?)
@@ -183,10 +183,10 @@ end
 -%>
 
 <%
-@extra_sections.each do |section|
+@extra_sections.sort.each do |section|
   _buf << "[#{section}]\n"
 
-  node['moniker'][section].each do |key, value|
+  node['moniker'][section].sort.each do |key, value|
     if value.nil? or (value.kind_of?(Array) and value.empty?)
       next
     elsif value.kind_of?(Array)

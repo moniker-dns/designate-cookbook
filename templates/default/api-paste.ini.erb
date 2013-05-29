@@ -1,8 +1,8 @@
 <%
-node['moniker']['api_paste'].each do |section, properties|
+node['moniker']['api_paste'].sort.each do |section, properties|
   _buf << "[#{section}]\n"
 
-  properties.each do |key, value|
+  properties.sort.each do |key, value|
     if value.nil? or (value.kind_of?(Array) and value.empty?)
       next
     elsif value.kind_of?(Array)
