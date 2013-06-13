@@ -14,16 +14,16 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-include_recipe "moniker::common"
+include_recipe "designate::common"
 
-# Install the Moniker Agent package
-package "moniker-agent" do
+# Install the Designate Agent package
+package "designate-agent" do
   action   :upgrade
 end
 
-# Enable + Start the Moniker Agent service
-service "moniker-agent" do
+# Enable + Start the Designate Agent service
+service "designate-agent" do
   supports    :restart => true, :status => true
   action      [:enable, :start]
-  subscribes  :restart, resources(:template => "/etc/moniker/moniker.conf")
+  subscribes  :restart, resources(:template => "/etc/designate/designate.conf")
 end

@@ -15,17 +15,17 @@
 # under the License.
 #
 
-if node[:moniker][:install_ppa]
-  # Public Moniker PPA
-  apt_repository "moniker-unstable" do
-    uri          "http://ppa.launchpad.net/moniker-drivers/unstable/ubuntu"
+if node[:designate][:install_ppa]
+  # Public Designate PPA
+  apt_repository "designate-ppa" do
+    uri          "http://ppa.launchpad.net/kiall/designate-havana/ubuntu"
     distribution node['lsb']['codename']
     components   ["main"]
     keyserver    "keyserver.ubuntu.com"
-    key          "496F6DC9"
+    key          "DFA62498"
   end
 else
-  apt_repository "moniker-unstable" do
+  apt_repository "designate-ppa" do
     action :remove
   end
 end

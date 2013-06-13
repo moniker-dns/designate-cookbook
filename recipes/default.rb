@@ -14,5 +14,5 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-include_recipe "moniker::central"
-include_recipe "moniker::api"
+include_recipe "designate::central"
+include_recipe "designate::api"

@@ -14,16 +14,16 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-include_recipe "moniker::common"
+include_recipe "designate::common"
 
-# Install the Moniker Sink package
-package "moniker-sink" do
+# Install the Designate Sink package
+package "designate-sink" do
   action   :upgrade
 end
 
-# Enable + Start the Moniker Sink service
-service "moniker-sink" do
+# Enable + Start the Designate Sink service
+service "designate-sink" do
   supports    :restart => true, :status => true
   action      [:enable, :start]
-  subscribes  :restart, resources(:template => "/etc/moniker/moniker.conf")
+  subscribes  :restart, resources(:template => "/etc/designate/designate.conf")
 end

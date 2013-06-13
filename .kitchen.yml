@@ -8,16 +8,16 @@ platforms:
     box_url: http://files.vagrantup.com/precise64.box
     require_chef_omnibus: true
   attributes:
-    moniker:
+    designate:
       rabbitmq_hosts:
         - 127.0.0.1:5672
 
 suites:
 - name: central
-  run_list: ["recipe[moniker::central]"]
+  run_list: ["recipe[designate::central]"]
 - name: api
-  run_list: ["recipe[moniker::api]"]
+  run_list: ["recipe[designate::api]"]
 - name: agent
-  run_list: ["recipe[moniker::agent]"]
+  run_list: ["recipe[designate::agent]"]
 - name: sink
-  run_list: ["recipe[moniker::sink]"]
+  run_list: ["recipe[designate::sink]"]

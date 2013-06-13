@@ -14,16 +14,16 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-include_recipe "moniker::common"
+include_recipe "designate::common"
 
-# Install the Moniker Central package
-package "moniker-central" do
+# Install the Designate Central package
+package "designate-central" do
   action   :upgrade
 end
 
-# Enable + Start the Moniker Central service
-service "moniker-central" do
+# Enable + Start the Designate Central service
+service "designate-central" do
   supports    :restart => true, :status => true
   action      [:enable, :start]
-  subscribes  :restart, resources(:template => "/etc/moniker/moniker.conf")
+  subscribes  :restart, resources(:template => "/etc/designate/designate.conf")
 end

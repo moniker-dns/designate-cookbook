@@ -14,25 +14,25 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-include_recipe "moniker::common"
+include_recipe "designate::common"
 
-# Install the Moniker API package
-package "moniker-api" do
+# Install the Designate API package
+package "designate-api" do
   action   :upgrade
 end
 
 # Write out the api-paste configuration file
-template "/etc/moniker/api-paste.ini" do
+template "/etc/designate/api-paste.ini" do
   source  "api-paste.ini.erb"
-  owner   "moniker"
-  group   "moniker"
+  owner   "designate"
+  group   "designate"
   mode    0660
 end
 
-# Enable + Start the Moniker API service
-service "moniker-api" do
+# Enable + Start the Designate API service
+service "designate-api" do
   supports    :restart => true, :status => true
   action      [:enable, :start]
-  subscribes  :restart, resources(:template => "/etc/moniker/moniker.conf")
-  subscribes  :restart, resources(:template => "/etc/moniker/api-paste.ini")
+  subscribes  :restart, resources(:template => "/etc/designate/designate.conf")
+  subscribes  :restart, resources(:template => "/etc/designate/api-paste.ini")
 end

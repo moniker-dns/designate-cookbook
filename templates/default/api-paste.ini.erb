@@ -1,5 +1,5 @@
 <%
-node['moniker']['api_paste'].sort.each do |section, properties|
+node[:designate]['api_paste'].sort.each do |section, properties|
   _buf << "[#{section}]\n"
 
   properties.sort.each do |key, value|

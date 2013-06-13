@@ -15,7 +15,7 @@
 # under the License.
 #
 
-default['moniker']['policy']['rules'] = {
+default[:designate]['policy']['rules'] = {
   'admin' => 'role:admin or is_admin:True',
   'owner' => 'tenant_id:%(tenant_id)s or tenant_id:%(effective_tenant_id)s',
   'admin_or_owner' => 'rule:admin or rule:owner',
