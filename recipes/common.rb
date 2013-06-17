@@ -18,7 +18,7 @@
 include_recipe "moniker::repository"
 
 # Lookup the RabbitMQ hosts via search (or the configured hosts if set)
-rabbitmq_hosts = search_helper_best_ip(node[:moniker][:rabbitmq_search], node[:moniker][:rabbitmq_hosts]) do |ip, other_node|
+rabbitmq_hosts = search_helper_best_ip(node[:moniker][:rabbitmq_search], node[:moniker][:rabbitmq_hosts], false) do |ip, other_node|
   if node['moniker']['DEFAULT']['rabbit_use_ssl']
     "#{ip}:#{other_node[:rabbitmq][:ssl_port]}"
   else
