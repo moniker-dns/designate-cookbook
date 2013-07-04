@@ -38,6 +38,11 @@ package "designate-common" do
   action   :upgrade
 end
 
+# Install the python-designate package
+package "python-designate" do
+  action   :upgrade
+end
+
 # Write out the main designate config file
 template "/etc/designate/designate.conf" do
   source     "designate.conf.erb"
