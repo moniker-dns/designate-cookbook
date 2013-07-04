@@ -34,6 +34,7 @@ default[:designate]['DEFAULT']['policy_default_rule'] = 'default'
 default[:designate]['DEFAULT']['allowed_rpc_exception_modules'] = ['designate.exceptions', 'designate.openstack.common.exception']
 default[:designate]['DEFAULT']['default_log_levels'] = ['amqplib=WARN', 'sqlalchemy=WARN', 'boto=WARN', 'suds=INFO', 'keystone=INFO', 'eventlet.wsgi.server=WARN', 'stevedore=WARN']
 
+default[:designate]['DEFAULT']['amqp_rpc_single_reply_queue'] = false
 default[:designate]['DEFAULT']['rabbit_use_ssl'] = false
 default[:designate]['DEFAULT']['rabbit_userid'] = 'guest'
 default[:designate]['DEFAULT']['rabbit_password'] = 'guest'
