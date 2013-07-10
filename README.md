@@ -13,9 +13,9 @@ Setup:
 
 1. Install VirtualBox
 2. Install Vagrant
-3. git clone git@github.com:moniker-dns/moniker-cookbook.git
-4. rvm --rvmrc --create ruby@moniker-cookbook (optional.. some people prefer RVM)
-5. gem install berkshelf
+3. git clone git@github.com:moniker-dns/designate-cookbook.git
+4. cd designate-cookbook
+5. bundle install
 6. vagrant plugin install berkshelf-vagrant
 
 Process:

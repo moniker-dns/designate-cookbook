@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
     
     # Provide some chef attributes
     chef.json = {
-      :moniker => {
+      :designate => {
         :rabbitmq_hosts => ['127.0.0.1:5672']
       },
       :rabbitmq => {
