@@ -24,3 +24,5 @@ Process:
 2. Code..
 3. `vagrant provision`
 4. Goto 2
+
+The API will be available on http://127.0.0.1:9002/v1/
