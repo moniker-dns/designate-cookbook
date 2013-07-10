@@ -21,14 +21,14 @@ Vagrant.configure("2") do |config|
   end
 
   # Install the correct version of chef
-  # config.vm.provision :shell do |shell|
-  #   shell.inline = %Q{
-  #     if [ ! -f "/usr/bin/chef-solo" ]; then
-  #       wget -O /tmp/chef.deb https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/11.04/x86_64/chef_10.24.4-1.ubuntu.11.04_amd64.deb &&
-  #       dpkg -i /tmp/chef.deb
-  #     fi
-  #   }
-  # end
+  config.vm.provision :shell do |shell|
+    shell.inline = %Q{
+      if [ ! -f "/usr/bin/chef-solo" ]; then
+        wget -O /tmp/chef.deb https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/11.04/x86_64/chef_10.24.4-1.ubuntu.11.04_amd64.deb &&
+        dpkg -i /tmp/chef.deb
+      fi
+    }
+  end
 
   # Provision the VM with chef-solo
   config.vm.provision :chef_solo do |chef|
