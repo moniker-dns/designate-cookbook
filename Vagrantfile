@@ -42,6 +42,7 @@ Vagrant.configure("2") do |config|
     # Set the chef run-list
     chef.add_recipe("apt")
     chef.add_recipe("rabbitmq")
+    chef.add_recipe("designate::database_migrate")
     chef.add_recipe("designate::central")
     chef.add_recipe("designate::agent")
     chef.add_recipe("designate::sink")
