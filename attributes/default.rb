@@ -47,7 +47,7 @@ default[:designate]['DEFAULT']['kombu_ssl_certfile'] = nil
 default[:designate]['DEFAULT']['kombu_ssl_ca_certs'] = nil
 
 # Designate [service:central] Configuration
-default[:designate]['service:central']['backend_driver'] = 'rpc'
+default[:designate]['service:central']['backend_driver'] = 'fake'
 default[:designate]['service:central']['domain_name_blacklist'] = Array.new
 default[:designate]['service:central']['accepted_tld_list'] = Array.new
 default[:designate]['service:central']['max_domain_name_len'] = 255
@@ -94,7 +94,6 @@ default[:designate]['backend:powerdns']['domain_type'] = 'NATIVE'
 default[:designate]['backend:powerdns']['also_notify'] = []
 
 # Designate [storage:sqlalchemy] Configuration
-default[:designate]['storage:sqlalchemy']['backend_driver'] = 'bind9'
 default[:designate]['storage:sqlalchemy']['database_connection'] = 'sqlite:///$state_path/designate.sqlite'
 default[:designate]['storage:sqlalchemy']['connection_debug'] = 0
 default[:designate]['storage:sqlalchemy']['connection_trace'] = false
