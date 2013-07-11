@@ -70,7 +70,7 @@ Vagrant.configure("2") do |config|
       echo "curl -X POST -H \\"Content-Type: application/json\\" http://127.0.0.1:9002/v1/domains -d '{\\"name\\": \\"example.org.\\", \\"email\\": \\"john@example.org\\"}'"
       echo ""
       echo "Then, a domain: (replace <domain-id>!)"
-      echo "curl -X POST -H \\"Content-Type: application/json\\" http://127.0.0.1:9002/v1/domains/<domain-id> -d '{\\"name\\": \\"www.example.org.\\", \\"type\\": \\"A\\", \\"data\\": \\"127.0.0.1\\"}'"
+      echo "curl -X POST -H \\"Content-Type: application/json\\" http://127.0.0.1:9002/v1/domains/<domain-id>/records -d '{\\"name\\": \\"www.example.org.\\", \\"type\\": \\"A\\", \\"data\\": \\"127.0.0.1\\"}'"
     }
   end
 end

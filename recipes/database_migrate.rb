@@ -24,5 +24,13 @@ end
 
 # Run the DB migrations
 execute "designate-manage database-sync" do
+
   action          :run
+end
+
+# Run the DB migrations
+file "/var/lib/designate/designate.sqlite" do
+  owner           "designate"
+  group           "designate"
+  only_if         { File.exists?("/var/lib/designate/designate.sqlite") }
 end
