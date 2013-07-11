@@ -58,4 +58,19 @@ Vagrant.configure("2") do |config|
       }
     }
   end
+
+  config.vm.provision :shell do |shell|
+    shell.inline = %Q{
+      echo "Success!"
+      echo ""
+      echo "Now try configuring a nameserver address:"
+      echo "curl -X POST -H \\"Content-Type: application/json\\" http://127.0.0.1:9002/v1/servers -d '{\\"name\\": \\"ns1.example.com.\\"}'"
+      echo ""
+      echo "Then, a domain:"
+      echo "curl -X POST -H \\"Content-Type: application/json\\" http://127.0.0.1:9002/v1/domains -d '{\\"name\\": \\"example.org.\\", \\"email\\": \\"john@example.org\\"}'"
+      echo ""
+      echo "Then, a domain:"
+      echo "curl -X POST -H \\"Content-Type: application/json\\" http://127.0.0.1:9002/v1/domains/---DOMAIN ID--- -d '{\\"name\\": \\"www.example.org.\\", \\"type\\": \\"A\\", \\"data\\": \\"127.0.0.1\\"}'"
+    }
+  end
 end
