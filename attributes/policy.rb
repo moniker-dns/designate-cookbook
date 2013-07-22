@@ -22,37 +22,49 @@ default[:designate]['policy']['rules'] = {
 
   'default' => 'rule:admin_or_owner',
 
+  'get_quotas' => 'rule:admin_or_owner',
+  'get_quota' => 'rule:admin_or_owner',
+  'set_quota' => 'rule:admin',
+  'reset_quotas' => 'rule:admin',
+
   'create_server' => 'rule:admin',
-  'get_servers' => 'rule:admin',
+  'find_servers' => 'rule:admin',
   'get_server' => 'rule:admin',
   'update_server' => 'rule:admin',
   'delete_server' => 'rule:admin',
 
   'create_tsigkey' => 'rule:admin',
-  'get_tsigkeys' => 'rule:admin',
+  'find_tsigkeys' => 'rule:admin',
   'get_tsigkey' => 'rule:admin',
   'update_tsigkey' => 'rule:admin',
   'delete_tsigkey' => 'rule:admin',
 
+  'find_tenants' => 'rule:admin',
+  'get_tenant' => 'rule:admin',
+  'count_tenants' => 'rule:admin',
+
   'create_domain' => 'rule:admin_or_owner',
   'get_domains' => 'rule:admin_or_owner',
   'get_domain' => 'rule:admin_or_owner',
+  'get_domain_servers' => 'rule:admin_or_owner',
+  'find_domains' => 'rule:admin_or_owner',
+  'find_domain' => 'rule:admin_or_owner',
   'update_domain' => 'rule:admin_or_owner',
   'delete_domain' => 'rule:admin_or_owner',
-  'get_domain_servers' => 'rule:admin_or_owner',
+  'count_domains' => 'rule:admin_or_owner',
+  'touch_domain' => 'rule:admin_or_owner',
 
   'create_record' => 'rule:admin_or_owner',
   'get_records' => 'rule:admin_or_owner',
   'get_record' => 'rule:admin_or_owner',
+  'find_records' => 'rule:admin_or_owner',
+  'find_record' => 'rule:admin_or_owner',
   'update_record' => 'rule:admin_or_owner',
   'delete_record' => 'rule:admin_or_owner',
+  'count_records' => 'rule:admin_or_owner',
 
   'use_sudo' => 'rule:admin',
   'use_blacklisted_domain' => 'rule:admin',
-
-  'count_domains' => 'rule:admin',
-  'count_records' => 'rule:admin',
-  'count_tenants' => 'rule:admin',
 
   'diagnostics_ping' => 'rule:admin',
   'diagnostics_sync_domains' => 'rule:admin',
