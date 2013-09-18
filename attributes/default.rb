@@ -57,6 +57,8 @@ default[:designate]['service:central']['max_record_name_len'] = 255
 default[:designate]['service:api']['api_host'] = '0.0.0.0'
 default[:designate]['service:api']['api_port'] = 9001
 default[:designate]['service:api']['auth_strategy'] = 'noauth'
+default[:designate]['service:api']['enable_api_v1'] = true
+default[:designate]['service:api']['enable_api_v2'] = false
 default[:designate]['service:api']['enabled_extensions_v1'] = Array.new
 
 # Designate [service:agent] Configuration
