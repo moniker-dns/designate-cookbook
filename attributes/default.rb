@@ -54,6 +54,7 @@ default[:designate]['service:central']['max_domain_name_len'] = 255
 default[:designate]['service:central']['max_record_name_len'] = 255
 
 # Designate [service:api] Configuration
+default[:designate]['service:api']['api_base_uri'] = 'http://127.0.0.1:9001/'
 default[:designate]['service:api']['api_host'] = '0.0.0.0'
 default[:designate]['service:api']['api_port'] = 9001
 default[:designate]['service:api']['auth_strategy'] = 'noauth'
